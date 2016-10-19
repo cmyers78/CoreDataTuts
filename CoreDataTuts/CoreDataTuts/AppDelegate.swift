@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // Create managed object
-        
+        // Create records
         let entityDescription = NSEntityDescription.entity(forEntityName: "Person", in: self.managedObjectContext)
         let newPerson = NSManagedObject(entity: entityDescription!, insertInto: self.managedObjectContext)
         
@@ -32,6 +32,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print(error)
         }
+        
+        let fetchReq = NSFetchRequest<NSFetchRequestResult>(entityName: "Person")
+        
+        let entityDesc = NSEntityDescription.entity(forEntityName: "Person", in: self.managedObjectContext)
+        
+        
+        fetchReq.entity = entityDesc
+        
+        do {
+            let result = try self.managedObjectContext.fetch(fetchReq)
+            //print(result)
+            if (result.count > 0) {
+                let person = result[0] as! NSManagedObject
+                
+                print("1 - \(person)")
+                
+                if let first = person.value(forKey: "first"), let last = person.value(forKey: "last") {
+                    print("\(first) \(last)")
+                }
+                
+                print("2 - \(person)")
+            }
+        } catch {
+            let fetchError = error as NSError
+            print(fetchError)
+        }
+        
         
         return true
     }
