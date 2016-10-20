@@ -27,16 +27,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         newPerson.setValue("Myers", forKey: "last")
         newPerson.setValue(37, forKey: "age")
         
+        // Save a Record
         do {
             try newPerson.managedObjectContext?.save()
         } catch {
             print(error)
         }
+        // Retrieve a record
         
         let fetchReq = NSFetchRequest<NSFetchRequestResult>(entityName: "Person")
         
+        // Duplicate of the first entity description
         let entityDesc = NSEntityDescription.entity(forEntityName: "Person", in: self.managedObjectContext)
-        
         
         fetchReq.entity = entityDesc
         
